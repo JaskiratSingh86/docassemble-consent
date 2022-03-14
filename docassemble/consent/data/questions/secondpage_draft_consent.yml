@@ -1,0 +1,75 @@
+--- 
+# this is second part of the code
+objects:
+  - endpoint: DADict
+
+---
+
+mandatory: True
+question: Does the patient have decision-making capacity.
+fields:
+  - no label: second_page
+    datatype: radio
+    choices:
+    - "Yes - Patient can make informed decisions": paired
+    - "No - Patient's decision-making is impaired": impaired
+   
+---
+mandatory: True
+code:  |
+  if second_page == 'paired':
+    endpoint['yes']
+  else:
+    endpoint['no']
+---
+mandatory: True
+event: endpoint['yes']
+question: Patient can provide a consent
+subquestion: |
+  ##### A valid consent **must** be obtained before treatment.
+  ******************************************************************
+  ##### *Thank you for using this service*
+  ******************************************************************
+
+buttons:
+  - Exit: exit
+    url: https://www.flinders.edu.au/college-business-government-law
+---
+mandatory: True
+event: endpoint['no']
+question: "Patient's decision-making is imparied"
+subquestion: |
+  If the patient has impaired decision-making and is unable to consent to the treatment, medical proffesionals should check if:
+
+  -  There is a Advance Care Directive in place
+  -  Whether or not subsititute decision maker has been appointed 
+  -  If in case there is no active Advance Care Directive or substitute decision maker available - a **person responsible** for the patient can give consent 
+  -  Check if a guardian has been appointed by the Guardianship Board (prior to 30 March 2015) or  South Australian Civil and Administrative Tribunal (SACAT) on or after 30 March 2015, the guardian is the person responsible for the patient and can consent 
+  ******************************************************************************
+
+  If no guardian has been appointed, then a **prescribed relative** of the patient who has a close and continuing relationship with the patient can consent
+  
+  Prescribed relative can be any of the following
+  
+  -  a person who is legally married to the patient or (married according to Aboriginal or Torres Strait Islander tradition) or a domestic partner of the patient (within the [Family Relationships Act 1975](https://www.legislation.sa.gov.au/lz?path=%2FC%2FA%2FFAMILY%20RELATIONSHIPS%20ACT%201975) (SA))
+  -  an adult related to the patient by blood or marriage
+  -  an adult related to the patient by reason of adoption
+  -  an adult of Aboriginal and Torres Strait Islander descent who is related to the patient according to kinship rules
+
+  
+  Please note that it is an offence under s 14D of the Act to falsly represent to medical practitioner on someones's behalf. The maximum penalty is 2 years imprisonment
+  
+  ********************************************************************************
+  ### Does patient require urgent medical treatment?
+  
+  -  If it is a medical emergency and circumstances exist - a medical practitionar is permitted under s13 of the Act to perform the emergency medical treatment without consent
+  ********************************************************************************
+  [*Advance Directives Act 2013*](https://www.legislation.sa.gov.au/lz?path=%2Fc%2Fa%2Fadvance%20care%20directives%20act%202013) (SA) (Directives) 
+  
+  [*Consent to Medical Treatment and Palliative Care Act 1995*](https://www.legislation.sa.gov.au/__legislation/lz/c/a/consent%20to%20medical%20treatment%20and%20palliative%20care%20act%201995/current/1995.26.auth.pdf) (SA) (the Act) 
+    
+buttons: 
+  - I found what I was looking far - I am ready to leave: exit
+    url: https://www.flinders.edu.au/college-business-government-law
+  - I will like to go through the information one more time: restart
+
